@@ -22,11 +22,6 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
           gh auth status
 
-      - name: Configure Git User
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Push linux-amd64 subtree to its own repo
         run: |
           git remote add linux-amd64-repo https://github.com/satur-io/duckdb-php-clib-linux-amd64.git

@@ -1,11 +1,8 @@
 {
-  "name": "satur.io/duckdb-clib-all",
-  "description": "C libraries for satur.io/duckdb - all platforms",
+  "name": "satur.io/duckdb-clib-no-lib",
+  "description": "DuckDB C library must be installed manually with this package",
   "type": "library",
   "license": "MIT",
-  "autoload": {
-    "files": [ "define_lib_paths.php" ]
-  },
   "provide": {
     "satur.io/duckdb-clib": "self.version"
   },

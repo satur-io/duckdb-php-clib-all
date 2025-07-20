@@ -49,6 +49,6 @@ jobs:
 
       - name: Create release in package repo (${{ matrix.package.repo_name }})
         run: |
-          gh release create ${{ GITHUB_REF_NAME }} --generate-notes -R satur-io/${{ matrix.package.repo_name }}
+          gh release create $GITHUB_REF_NAME --generate-notes -R satur-io/${{ matrix.package.repo_name }}
         env:
           GH_TOKEN: ${{ secrets.PAT }}

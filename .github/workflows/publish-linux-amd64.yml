@@ -31,6 +31,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
       - name: Release package repo
-        run: gh release create v1.2.3 --generate-notes -R satur-io/duckdb-php-clib-linux-amd64
+        run: gh release create ${GITHUB_REF_NAME} --generate-notes -R satur-io/duckdb-php-clib-linux-amd64
         env:
           GH_TOKEN: ${{ secrets.PAT }}

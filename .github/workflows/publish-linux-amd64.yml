@@ -19,16 +19,16 @@ jobs:
           
       - name: Configure Git User
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "dhernandez"
+          git config user.email "dhernandez@users.noreply.github.com"
 
       - name: Push linux-amd64 subtree to its own repo
         run: |
           git config --unset-all http.https://github.com/.extraheader
-          git remote add linux-amd64-repo https://github-actions[bot]:$GITHUB_TOKEN@github.com/satur-io/duckdb-php-clib-linux-amd64.git
+          git remote add linux-amd64-repo https://dhernandez:$GITHUB_TOKEN@github.com/satur-io/duckdb-php-clib-linux-amd64.git
           git subtree push --prefix=lib/linux-amd64 linux-amd64-repo main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
       - name: Tag the package repo
         run: git push https://github.com/satur.io/duckdb-php-clib-linux-amd64.git refs/tags/$GITHUB_REF_NAME

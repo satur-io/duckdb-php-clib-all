@@ -17,6 +17,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Authenticate GitHub CLI
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          gh auth status
+
       - name: Configure Git User
         run: |
           git config user.name "github-actions[bot]"
@@ -24,7 +29,8 @@ jobs:
 
       - name: Push linux-amd64 subtree to its own repo
         run: |
-          git subtree push --prefix=lib/linux-amd64 https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/satur-io/duckdb-php-clib-linux-amd64.git main
+          git remote add linux-amd64-repo https://github.com/satur-io/duckdb-php-clib-linux-amd64.git
+          git subtree push --prefix=lib/linux-amd64 linux-amd64-repo main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

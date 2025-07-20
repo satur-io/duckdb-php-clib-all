@@ -1,3 +1,3 @@
 <?php
 
-const DUCKDB_PHP_LIB_DIRECTORY = __DIR__;
+const DUCKDB_PHP_PATH = __DIR__;

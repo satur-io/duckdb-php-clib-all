@@ -31,6 +31,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
       - name: Tag the package repo
-        run: git push https://dhernandez:$GITHUB_TOKEN@github.com/satur-io/duckdb-php-clib-linux-amd64.git refs/tags/$GITHUB_REF_NAME
+        run: |
+          git tag -f -a $GITHUB_REF_NAME -m "Release $GITHUB_REF_NAME"
+          git push --tags https://dhernandez:$GITHUB_TOKEN@github.com/satur-io/duckdb-php-clib-linux-amd64.git --force-with-lease
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}

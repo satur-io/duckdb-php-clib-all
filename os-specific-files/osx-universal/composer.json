@@ -1,5 +1,5 @@
 {
-  "name": "satur.io/duckdb-clib-macos",
+  "name": "satur.io/duckdb-clib-osx-universal",
   "description": "C libraries for satur.io/duckdb - macOS",
   "type": "library",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
-  "name": "satur.io/duckdb-clib-osx-universal",
-  "description": "C libraries for satur.io/duckdb - macOS",
+  "name": "satur.io/duckdb-clib-linux-amd64",
+  "description": "C libraries for satur.io/duckdb - Linux ARM64",
   "type": "library",
   "license": "MIT",
   "autoload": {

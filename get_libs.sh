@@ -20,6 +20,7 @@ for platform in "${platforms[@]}"; do
   sed -i \~ "s/#define FFI_LIB \"\/tmp\/${platform}\/${platformLibFiles[${counter}]}\"/#define FFI_LIB \"lib\/${platform}\/${platformLibFiles[${counter}]}\"/" /tmp/${platform}/duckdb-ffi.h
   cp "/tmp/${platform}/${platformLibFiles[${counter}]}" "./lib/${platform}/${platformLibFiles[${counter}]}"
   cp "/tmp/${platform}/duckdb-ffi.h" "./lib/${platform}/duckdb-ffi.h"
+  cp ./os-specific-files/${platform}/* "./lib/${platform}"
   rm -rf "/tmp/${platform}"
   counter=${counter}+1
 done

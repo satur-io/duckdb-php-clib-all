@@ -24,8 +24,7 @@ jobs:
 
       - name: Push linux-amd64 subtree to its own repo
         run: |
-          git remote add linux-amd64-repo https://github.com/satur-io/duckdb-php-clib-linux-amd64.git
-          git subtree push --prefix=lib/linux-amd64 linux-amd64-repo main
+          git subtree push --prefix=lib/linux-amd64 https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/satur-io/duckdb-php-clib-linux-amd64.git main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -30,9 +30,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
-      - name: Tag the package repo
-        run: |
-          git tag -f -a $GITHUB_REF_NAME -m "Release $GITHUB_REF_NAME"
-          git push --tags https://dhernandez:$GITHUB_TOKEN@github.com/satur-io/duckdb-php-clib-linux-amd64.git --force-with-lease
+      - name: Release package repo
+        run: gh release create v1.2.3 --generate-notes -r satur-io/duckdb-php-clib-linux-amd64
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GH_TOKEN: ${{ secrets.PAT }}

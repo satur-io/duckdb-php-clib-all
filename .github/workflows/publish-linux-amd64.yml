@@ -1,0 +1,31 @@
+name: Publish Linux AMD64 Package
+
+on:
+  release:
+    types: [published]
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout monorepo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git User
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Push linux-amd64 subtree to its own repo
+        run: git subtree push --prefix=lib/linux-amd64 linux-amd64-repo main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag the package repo
+        run: git push https://github.com/satur.io/duckdb-php-clib-linux-amd64.git refs/tags/${{ GITHUB_REF_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,4 +1,4 @@
-name: Publish Linux AMD64 Package
+name: Publish Multi-Platform Packages
 
 on:
   release:
@@ -11,31 +11,44 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
+    strategy:
+      matrix:
+        package:
+          - platform_path: lib/linux-amd64
+            repo_name: duckdb-php-clib-linux-amd64
+          - platform_path: lib/linux-arm64
+            repo_name: duckdb-php-clib-linux-arm64
+          - platform_path: lib/windows-amd64
+            repo_name: duckdb-php-clib-windows-amd64
+          - platform_path: lib/windows-arm64
+            repo_name: duckdb-php-clib-windows-arm64
+          - platform_path: lib/osx-universal
+            repo_name: duckdb-php-clib-osx-universal
+          - platform_path: no-lib
+            repo_name: duckdb-php-clib-no-lib
+
     steps:
       - name: Checkout monorepo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Checkout tools repo
-        uses: actions/checkout@v4
-        with:
-          repository: satur-io/duckdb-php-clib-linux-amd64
-          path: subtree
-
-      - name: Authenticate GitHub CLI
+      - name: Configure Git User
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
-          gh auth status
+          git config user.name "dhernandez"
+          git config user.email "dhernandez@users.noreply.github.com"
 
-      - name: Push linux-amd64 subtree to its own repo
+      - name: Push subtree to its own repo (${{ matrix.package.repo_name }})
         run: |
-          git remote add linux-amd64-repo https://github.com/satur-io/duckdb-php-clib-linux-amd64.git
-          git subtree push --prefix=lib/linux-amd64 linux-amd64-repo main
+          git config --unset-all http.https://github.com/.extraheader
+          git remote add ${{ matrix.package.repo_name }}-remote https://dhernandez:$GITHUB_TOKEN@github.com/satur-io/${{ matrix.package.repo_name }}.git
+          git subtree push --prefix=${{ matrix.package.platform_path }} ${{ matrix.package.repo_name }}-remote main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
-      - name: Tag the package repo
-        run: git push https://github.com/satur.io/duckdb-php-clib-linux-amd64.git refs/tags/$GITHUB_REF_NAME
+      - name: Create release in package repo (${{ matrix.package.repo_name }})
+        run: |
+          gh release create ${{ GITHUB_REF_NAME }} --generate-notes -R satur-io/${{ matrix.package.repo_name }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT }}
